@@ -1,0 +1,10 @@
+.airtable-container {
+    height:100%;
+}
+body {
+    margin: 0;
+    height: 100%;
+}
+.airtable-embed {
+    height: 1400px;
+}
