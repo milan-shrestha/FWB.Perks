@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Jumbotron, Row, Col } from "react-bootstrap";
 import { ethers } from "ethers";
 import AirtableEmbed from "./airtableembed";
 import { Link } from 'react-router-dom';
 
 const ConnectWallet = () => {
 
+    const [errorMessage, setErrorMessage] = useState("");
     async function initWallet() {
         if (!window.ethereum) {
             console.log("Install metamask pls");
+            setErrorMessage("Your browser doesn't have metamask")
           }
           const abi = [
               // Read-Only Functions
@@ -18,6 +20,7 @@ const ConnectWallet = () => {
           ];
           
           const [viewerAddress] = await window.ethereum.enable();
+          console.log("viewer address is %s", viewerAddress);
           let provider = new ethers.providers.Web3Provider(window.ethereum, "any")
           const FWBTokenAddress = "0x35bD01FC9d6D5D81CA9E055Db88Dc49aa2c699A8"
           
@@ -26,7 +29,9 @@ const ConnectWallet = () => {
 
           if (viewerBalanceWei > 0) {
               console.log("they've got it");
-
+              window.location.href="airtableembed.html"
+          } else {
+              setErrorMessage("You need to hold $FWB tokens to get the benefits of tokenholders")
           }
           console.log(ethers.utils.formatEther(viewerBalanceWei)); // is it greater than 75??
     }
@@ -35,13 +40,23 @@ const ConnectWallet = () => {
     
     return (
         <Container fluid>
-            <Link to='/memberperks'>
+            <Jumbotron>
+                <h1>Connect to a wallet with $FWB to see exclusive perks</h1>
+                <Button variant="warning"
+                    onClick={initWallet}>
+                    Connect Wallet
+                </Button>
+            </Jumbotron>
+        </Container>
+    )
+}
+export default ConnectWallet
+
+/**
+ * <Link to='/memberperks'>
                 <Button variant="warning"
                     onClick={initWallet}>
                     Connect Wallet
                 </Button>
             </Link>
-        </Container>
-    )
-}
-export default ConnectWallet
+ */
