@@ -34,9 +34,8 @@ state = {
     return (
       <Router>
         <Switch>
-          <Route path="/memberperks">
-            <AirtableEmbed />
-          </Route>
+          <Route exact path="/memberperks" 
+            render={() => {window.location.href="airtableembed.html"}}/>
           <Route path='/'>
             <ConnectWallet />
           </Route>
