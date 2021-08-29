@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ConnectWallet from "./pages/connectwallet"
 
 class App extends Component {
 state = {
@@ -25,6 +26,9 @@ state = {
 
   render() {
     return (
+      <ConnectWallet />
+    )
+    /*return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -32,7 +36,7 @@ state = {
         </header>
         <p className="App-intro">{this.state.data}</p>
       </div>
-    );
+    );*/
   }
 }
 
