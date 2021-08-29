@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
 import { ethers } from "ethers";
+import AirtableEmbed from "./airtableembed";
+import { Link } from 'react-router-dom';
 
 const ConnectWallet = () => {
 
@@ -21,6 +23,11 @@ const ConnectWallet = () => {
           
           const FWBContract = new ethers.Contract(FWBTokenAddress, abi, provider);
           const viewerBalanceWei = await FWBContract.balanceOf(viewerAddress);
+
+          if (viewerBalanceWei > 0) {
+              console.log("they've got it");
+
+          }
           console.log(ethers.utils.formatEther(viewerBalanceWei)); // is it greater than 75??
     }
     
@@ -28,10 +35,12 @@ const ConnectWallet = () => {
     
     return (
         <Container fluid>
-            <Button variant="warning"
-                onClick={initWallet}>
-                Connect Wallet
-            </Button>
+            <Link to='/memberperks'>
+                <Button variant="warning"
+                    onClick={initWallet}>
+                    Connect Wallet
+                </Button>
+            </Link>
         </Container>
     )
 }

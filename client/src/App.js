@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ConnectWallet from "./pages/connectwallet"
+import AirtableEmbed from './pages/airtableembed'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
 class App extends Component {
 state = {
@@ -26,7 +32,17 @@ state = {
 
   render() {
     return (
-      <ConnectWallet />
+      <Router>
+        <Switch>
+          <Route path="/memberperks">
+            <AirtableEmbed />
+          </Route>
+          <Route path='/'>
+            <ConnectWallet />
+          </Route>
+        </Switch>
+      </Router>
+      
     )
     /*return (
       <div className="App">
