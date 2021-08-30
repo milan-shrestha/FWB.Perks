@@ -7,10 +7,21 @@ import { Link } from 'react-router-dom';
 const ConnectWallet = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        if (!window.ethereum) {
+          return;
+        }
+        window.ethereum.on("accountsChanged", ([newAddress]) => {
+            window.location.reload();
+        })
+      }, [])
+
     async function initWallet() {
         if (!window.ethereum) {
             console.log("Install metamask pls");
             setErrorMessage("Your browser doesn't have metamask")
+            return;
           }
           const abi = [
               // Read-Only Functions
@@ -28,7 +39,6 @@ const ConnectWallet = () => {
           const viewerBalanceWei = await FWBContract.balanceOf(viewerAddress);
 
           if (viewerBalanceWei > 0) {
-              console.log("they've got it");
               window.location.href="airtableembed.html"
           } else {
               setErrorMessage("You need to hold $FWB tokens to get the benefits of tokenholders")
@@ -39,13 +49,22 @@ const ConnectWallet = () => {
     
     
     return (
-        <Container fluid>
-            <Jumbotron>
-                <h1>Connect to a wallet with $FWB to see exclusive perks</h1>
-                <Button variant="warning"
-                    onClick={initWallet}>
-                    Connect Wallet
-                </Button>
+        <Container >
+            <Jumbotron className='justify-content-center'>
+                <Row>
+                    <h1 className='display-1'>Connect to a wallet with $FWB to see exclusive perks</h1>
+                </Row>
+                <Row>
+                    <h4 className='text-danger'>{errorMessage}</h4>
+                </Row>
+                <Row className='justify-content-center'>
+                    <Col className='col-4 text-center'>
+                        <Button variant="primary"
+                            onClick={initWallet}>
+                            Connect Wallet
+                        </Button>
+                    </Col>
+                </Row>
             </Jumbotron>
         </Container>
     )
